@@ -1,13 +1,13 @@
 package starter;
 
-
+import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
-import net.serenitybdd.cucumber.CucumberWithSerenity;
 import org.junit.runner.RunWith;
 
-@RunWith(CucumberWithSerenity.class)
+@RunWith(Cucumber.class)
 @CucumberOptions(
-        plugin = {"pretty"},
-        features = "classpath:features"
+        plugin = {"pretty", "html:target/cucumber-html-report"},
+        features = "src/test/resources/features/postcodes"
 )
-public class CucumberTestSuite {}
+public class CucumberTestSuite {
+}

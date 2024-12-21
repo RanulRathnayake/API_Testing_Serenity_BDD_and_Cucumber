@@ -1,6 +1,23 @@
 package starter.postcodes;
 
 public class LocationResponse {
-    public static final String COUNTRY = "'country'";
-    public static final String FIRST_PLACE_NAME = "'places'[0].'place name'";
+    private String postcode;
+    private String country;
+
+    // Getters and setters
+    public String getPostcode() {
+        return postcode;
+    }
+
+    public void setPostcode(String postcode) {
+        this.postcode = postcode;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
 }

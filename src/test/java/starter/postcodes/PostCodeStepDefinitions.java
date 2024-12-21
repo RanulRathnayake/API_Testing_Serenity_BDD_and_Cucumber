@@ -1,28 +1,50 @@
 package starter.postcodes;
 
+import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.restassured.RestAssured;
-import net.serenitybdd.rest.SerenityRest;
-import net.thucydides.core.annotations.Steps;
+import io.restassured.response.Response;
 
-import static net.serenitybdd.rest.SerenityRest.restAssuredThat;
-import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertEquals;
 
 public class PostCodeStepDefinitions {
+    private PostCodeAPI postCodeAPI = new PostCodeAPI();
+    private Response response;
 
-    @Steps
-    PostCodeAPI postCodeAPI;
-
-    @When("I look up a post code {word} for country code {word}")
-    public void lookUpAPostCode(String postCode, String country) {
-        postCodeAPI.fetchLocationByPostCodeAndCountry(postCode, country);
+    @When("I retrieve all products")
+    public void iRetrieveAllProducts() {
+        response = postCodeAPI.getProducts();
     }
 
-    @Then("the resulting location should be {} in {}")
-    public void theResultingLocationShouldBe(String placeName, String country) {
-        restAssuredThat(response -> response.statusCode(200));
-        restAssuredThat(response -> response.body(LocationResponse.COUNTRY, equalTo(country)));
-        restAssuredThat(response -> response.body(LocationResponse.FIRST_PLACE_NAME, equalTo(placeName)));
+    @When("I create a new product with title {string} and price {double}")
+    public void iCreateANewProduct(String title, double price) {
+        ProductResponse product = new ProductResponse();
+        product.setTitle(title); // Setting the title of the product
+        product.setPrice(price); // Setting the price of the product
+        product.setDescription("Default description"); // Adding a default description
+        product.setImage("https://example.com/image.png"); // Adding a default image URL
+        product.setCategory("Default category"); // Adding a default category
+        response = postCodeAPI.createProduct(product);
+    }
+
+    @When("I update the product with id {int} to have title {string} and price {double}")
+    public void iUpdateTheProduct(int productId, String title, double price) {
+        ProductResponse updatedProduct = new ProductResponse();
+        updatedProduct.setTitle(title); // Setting the updated title
+        updatedProduct.setPrice(price); // Setting the updated price
+        updatedProduct.setDescription("Updated description"); // Adding updated description
+        updatedProduct.setImage("https://example.com/updated_image.png"); // Adding updated image URL
+        updatedProduct.setCategory("Updated category"); // Adding updated category
+        response = postCodeAPI.updateProduct(productId, updatedProduct);
+    }
+
+    @When("I delete the product with id {int}")
+    public void iDeleteTheProduct(int productId) {
+        response = postCodeAPI.deleteProduct(productId);
+    }
+
+    @Then("I should get a status code of {int}")
+    public void iShouldGetAStatusCodeOf(int statusCode) {
+        assertEquals(statusCode, response.getStatusCode());
     }
 }
