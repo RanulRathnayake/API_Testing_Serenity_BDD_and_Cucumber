@@ -1,17 +1,15 @@
 package starter.postcodes;
 
 public class ProductResponse {
-    private String title;       // Name or title of the product
-    private double price;       // Price of the product
-    private String description; // Description of the product
-    private String image;       // URL to the product image
-    private String category;    // Category of the product
+    private String title;
+    private double price;
+    private String description;
+    private String image;
+    private String category;
 
-    // Default constructor (required for serialization/deserialization)
     public ProductResponse() {
     }
 
-    // Parameterized constructor for convenience
     public ProductResponse(String title, double price, String description, String image, String category) {
         this.title = title;
         this.price = price;
@@ -20,7 +18,6 @@ public class ProductResponse {
         this.category = category;
     }
 
-    // Getters and setters for each field
     public String getTitle() {
         return title;
     }
